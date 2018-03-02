@@ -1,13 +1,44 @@
-program main
-
-    use opencoarrays
+module coarray_subs
 
     implicit none
-    real(8) :: r(2)
-    integer(8), codimension[*] :: accept
+
+contains
+
+    function calc_pi(n) result(pi)
+
+        use opencoarrays
+
+        implicit none
+        integer(8), save, codimension[*] :: accept
+        real(8) :: r(2), pi
+        integer(8), intent(in) :: n
+        integer(8) :: i
+
+        accept = 0
+
+        do i = this_image(), n, num_images()
+            call random_number(r)
+            if (r(1)**2 + r(2)**2 <= 1) then
+                accept = accept + 1
+            end if
+        end do
+
+        call co_sum(accept, 1)
+        pi = 4.0d0 * dble(accept)/dble(n)
+
+    end function calc_pi
+
+end module coarray_subs
+
+program main
+
+    use coarray_subs
+
+    implicit none
     real(8), parameter :: pi = 2.0d0*dacos(0.0d0)
-    integer(8) :: i, n
+    integer(8) ::  n
     character (len=64) :: arg
+    real(8) :: mypi
 
     call random_seed()
 
@@ -18,17 +49,10 @@ program main
     call get_command_argument(1, arg)
     read(arg,*) n
 
-    accept = 0
-
-    do i = this_image(), n, num_images()
-        call random_number(r)
-        if (r(1)**2 + r(2)**2 <= 1) accept = accept + 1
-    end do
-
-    call co_sum(accept, 1)
+    mypi = calc_pi(n)
 
     if (this_image() == 1) then
-        write(*,'(a,f12.6)') "Calculated = ", 4.0d0 * dble(accept)/dble(n)
+        write(*,'(a,f12.6)') "Calculated = ", mypi
         write(*,'(a,f12.6)') "Actual =     ", pi
     end if
 
