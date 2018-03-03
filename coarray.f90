@@ -6,7 +6,7 @@ contains
 
     function calc_pi(n) result(pi)
 
-        use opencoarrays
+        use opencoarrays, only: co_sum
 
         implicit none
         integer(8), save, codimension[*] :: accept
@@ -22,6 +22,8 @@ contains
                 accept = accept + 1
             end if
         end do
+
+        sync all
 
         call co_sum(accept, 1)
         pi = 4.0d0 * dble(accept)/dble(n)
