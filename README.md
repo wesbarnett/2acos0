@@ -3,9 +3,15 @@
 Calculates π using a [Monte
 Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method) using
 different parallelization libraries/protocols: serial (no
-parallelization), OpenMP, MPI, and coarrays.
+parallelization),
+[OpenMP](https://gcc.gnu.org/onlinedocs/gfortran/OpenMP.html), MPI,
+and [coarrays](https://gcc.gnu.org/wiki/CoarrayLib).
+
+## Compilation
 
 To compile run `make`.
+
+## Requirements
 
 The MPI implementation obviously requires an MPI library like
 [OpenMPI](https://www.open-mpi.org/) or
@@ -13,6 +19,8 @@ The MPI implementation obviously requires an MPI library like
 
 The coarrays implementation additionally requires
 [OpenCoarrays](http://www.opencoarrays.org/).
+
+## Running
 
 To run:
 
