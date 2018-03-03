@@ -1,1 +1,5 @@
 *.mod
+coarray
+mpi
+omp
+serial
