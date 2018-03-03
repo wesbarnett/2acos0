@@ -43,17 +43,19 @@ program main
     integer(8) :: n
     character (len=64) :: arg
 
-    if (command_argument_count() /= 1) then
-        error stop "One command line argument should be passed, which is the number of iterations to perform."
-    end if
-
-    call get_command_argument(1, arg)
-    read(arg,*) n
-
     call MPI_Init(ierr)
         
     call MPI_Comm_rank(MPI_COMM_WORLD, proc_id, ierr)
     call MPI_Comm_size(MPI_COMM_WORLD, proc_num, ierr)
+
+    if (command_argument_count() /= 1 .and. proc_id == 1) then
+        error stop "One command line argument should be passed, which is the number of iterations to perform."
+    end if
+
+    call MPI_Barrier(MPI_COMM_WORLD, ierr)
+
+    call get_command_argument(1, arg)
+    read(arg,*) n
 
     call random_seed()
 

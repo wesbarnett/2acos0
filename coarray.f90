@@ -42,12 +42,16 @@ program main
 
     call random_seed()
 
-    if (command_argument_count() /= 1) then
+    critical
+
+    if (command_argument_count() /= 1 .and. this_image() == 1) then
         error stop "One command line argument should be passed, which is the number of iterations to perform."
     end if
 
     call get_command_argument(1, arg)
     read(arg,*) n
+
+    end critical
 
     mypi = calc_pi(n)
 
