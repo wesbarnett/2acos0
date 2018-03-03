@@ -25,6 +25,8 @@ contains
             end if
         end do
 
+        call MPI_Barrier(MPI_COMM_WORLD, ierr)
+
         call MPI_Reduce(accept_part, accept, 1, MPI_INTEGER, MPI_SUM, 0, MPI_COMM_WORLD, ierr)
         pi = 4.0d0 * dble(accept)/dble(n)
 
