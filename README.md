@@ -1,8 +1,9 @@
-# 2acos(0)
+# π
 
-Calculates pi using a Monte Carlo method using different
-parallelization libraries/protocols: serial (no parallelization),
-OpenMP, MPI, and coarrays.
+Calculates π using a [Monte
+Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method) using
+different parallelization libraries/protocols: serial (no
+parallelization), OpenMP, MPI, and coarrays.
 
 To compile run `make`.
 
